@@ -8,13 +8,22 @@ package cabinet.GestionPatient;
 import cabinet.GestionPatient.Fiche.Fiche;
 import cabinet.GestionPatient.ListPatient.ListePatient;
 import cabinet.Menu;
+import cabinet.Model.Patient;
+import java.util.Date;
 
 /**
  *
  * @author admin
  */
 public class MenuGestionPatient extends javax.swing.JFrame {
-
+    
+    
+    public static Patient[] listePatient = {
+        new Patient(1,"Soussi","Walid",new Date(12, 02, 2019)),
+        new Patient(2,"Rami","Bassma",new Date(12, 02, 2019)),
+        new Patient(3,"Essamit","Yassir",new Date(12, 02, 2019))
+    };
+        
     /**
      * Creates new form MenuGestionPatient
      */

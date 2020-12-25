@@ -69,7 +69,7 @@ public class Menu extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel1);
@@ -78,21 +78,20 @@ public class Menu extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.GridLayout(0, 1));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setLayout(new java.awt.GridLayout());
+        jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setLayout(new java.awt.CardLayout());
 
         BtnGerePatient.setBackground(new java.awt.Color(255, 255, 255));
         BtnGerePatient.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/BgGerePatient.png"))); // NOI18N
         BtnGerePatient.setBorderPainted(false);
         BtnGerePatient.setContentAreaFilled(false);
         BtnGerePatient.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                BtnGerePatientMousePressed(evt);
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                BtnGerePatientMouseExited(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                BtnGerePatientMouseReleased(evt);
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                BtnGerePatientMouseEntered(evt);
             }
         });
         BtnGerePatient.addActionListener(new java.awt.event.ActionListener() {
@@ -105,23 +104,22 @@ public class Menu extends javax.swing.JFrame {
                 OnclickGerePatient(evt);
             }
         });
-        jPanel6.add(BtnGerePatient, "card2");
+        jPanel6.add(BtnGerePatient);
 
         jPanel4.add(jPanel6);
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel7.setLayout(new java.awt.CardLayout());
 
         btnRdv.setBackground(new java.awt.Color(255, 255, 255));
         btnRdv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/BgGereRdv.png"))); // NOI18N
         btnRdv.setBorderPainted(false);
         btnRdv.setContentAreaFilled(false);
         btnRdv.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnRdvMousePressed(evt);
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnRdvMouseExited(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnRdvMouseReleased(evt);
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnRdvMouseEntered(evt);
             }
         });
         btnRdv.addActionListener(new java.awt.event.ActionListener() {
@@ -129,23 +127,22 @@ public class Menu extends javax.swing.JFrame {
                 btnRdvActionPerformed(evt);
             }
         });
-        jPanel7.add(btnRdv, "card2");
+        jPanel7.add(btnRdv);
 
         jPanel4.add(jPanel7);
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel8.setLayout(new java.awt.CardLayout());
 
         btnPai.setBackground(new java.awt.Color(255, 255, 255));
         btnPai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/btnPai.png"))); // NOI18N
         btnPai.setBorderPainted(false);
         btnPai.setContentAreaFilled(false);
         btnPai.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnPaiMousePressed(evt);
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnPaiMouseExited(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnPaiMouseReleased(evt);
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnPaiMouseEntered(evt);
             }
         });
         btnPai.addActionListener(new java.awt.event.ActionListener() {
@@ -153,7 +150,7 @@ public class Menu extends javax.swing.JFrame {
                 btnPaiActionPerformed(evt);
             }
         });
-        jPanel8.add(btnPai, "card2");
+        jPanel8.add(btnPai);
 
         jPanel4.add(jPanel8);
 
@@ -190,7 +187,7 @@ public class Menu extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(98, Short.MAX_VALUE)
+                .addContainerGap(108, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -212,33 +209,9 @@ public class Menu extends javax.swing.JFrame {
         
     }//GEN-LAST:event_OnclickGerePatient
 
-    private void BtnGerePatientMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnGerePatientMousePressed
-        BtnGerePatient.setIcon(new ImageIcon("src/Media/BgGerePatientClick.png"));
-    }//GEN-LAST:event_BtnGerePatientMousePressed
-
-    private void BtnGerePatientMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnGerePatientMouseReleased
-       BtnGerePatient.setIcon(new ImageIcon("src/Media/BgGerePatient.png"));
-    }//GEN-LAST:event_BtnGerePatientMouseReleased
-
     private void btnRdvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRdvActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRdvActionPerformed
-
-    private void btnRdvMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRdvMousePressed
-         btnRdv.setIcon(new ImageIcon("src/Media/BgGereRdvClick.png"));
-    }//GEN-LAST:event_btnRdvMousePressed
-
-    private void btnRdvMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRdvMouseReleased
-        btnRdv.setIcon(new ImageIcon("src/Media/BgGereRdv.png"));
-    }//GEN-LAST:event_btnRdvMouseReleased
-
-    private void btnPaiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPaiMousePressed
-        btnPai.setIcon(new ImageIcon("src/Media/BtnPaiClick.png"));
-    }//GEN-LAST:event_btnPaiMousePressed
-
-    private void btnPaiMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPaiMouseReleased
-       btnPai.setIcon(new ImageIcon("src/Media/BtnPai.png"));
-    }//GEN-LAST:event_btnPaiMouseReleased
 
     private void btnPaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaiActionPerformed
         // TODO add your handling code here:
@@ -247,6 +220,30 @@ public class Menu extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void BtnGerePatientMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnGerePatientMouseEntered
+       BtnGerePatient.setIcon(new ImageIcon("src/Media/BgGerePatientClick.png"));
+    }//GEN-LAST:event_BtnGerePatientMouseEntered
+
+    private void BtnGerePatientMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnGerePatientMouseExited
+         BtnGerePatient.setIcon(new ImageIcon("src/Media/BgGerePatient.png"));
+    }//GEN-LAST:event_BtnGerePatientMouseExited
+
+    private void btnRdvMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRdvMouseEntered
+         btnRdv.setIcon(new ImageIcon("src/Media/BgGereRdvClick.png"));
+    }//GEN-LAST:event_btnRdvMouseEntered
+
+    private void btnRdvMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRdvMouseExited
+        btnRdv.setIcon(new ImageIcon("src/Media/BgGereRdv.png"));
+    }//GEN-LAST:event_btnRdvMouseExited
+
+    private void btnPaiMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPaiMouseEntered
+       btnPai.setIcon(new ImageIcon("src/Media/BtnPaiClick.png"));
+    }//GEN-LAST:event_btnPaiMouseEntered
+
+    private void btnPaiMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPaiMouseExited
+        btnPai.setIcon(new ImageIcon("src/Media/BtnPai.png"));
+    }//GEN-LAST:event_btnPaiMouseExited
 
     /**
      * @param args the command line arguments
@@ -259,7 +256,7 @@ public class Menu extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Mac OS X".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
