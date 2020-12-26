@@ -281,6 +281,7 @@ public class Fiche extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jTextField3 = new javax.swing.JTextField();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser5 = new com.toedter.calendar.JDateChooser();
         jPanel45 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
@@ -313,17 +314,16 @@ public class Fiche extends javax.swing.JFrame {
         jTable4 = new javax.swing.JTable();
         jPanel53 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
         jButton17 = new javax.swing.JButton();
         jButton18 = new javax.swing.JButton();
         jTextField4 = new javax.swing.JTextField();
-        jDateChooser4 = new com.toedter.calendar.JDateChooser();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jLabel25 = new javax.swing.JLabel();
         jPanel54 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         jButton19 = new javax.swing.JButton();
         jButton20 = new javax.swing.JButton();
-        jButton21 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -359,7 +359,7 @@ public class Fiche extends javax.swing.JFrame {
         jPanel28.setBackground(new java.awt.Color(255, 255, 255));
         jPanel28.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Enregistrer");
         jPanel28.add(jButton1);
 
         jPanel25.add(jPanel28);
@@ -1452,11 +1452,14 @@ public class Fiche extends javax.swing.JFrame {
 
         jButton8.setText("Vider");
 
-        jTextField3.setText("jTextField3");
+        jTextField3.setBackground(new java.awt.Color(189, 219, 243));
         jTextField3.setBorder(javax.swing.BorderFactory.createTitledBorder("Motif"));
 
         jDateChooser1.setBackground(new java.awt.Color(189, 219, 243));
         jDateChooser1.setBorder(javax.swing.BorderFactory.createTitledBorder("Date"));
+
+        jDateChooser5.setBackground(new java.awt.Color(189, 219, 243));
+        jDateChooser5.setBorder(javax.swing.BorderFactory.createTitledBorder("Date fin"));
 
         javax.swing.GroupLayout jPanel43Layout = new javax.swing.GroupLayout(jPanel43);
         jPanel43.setLayout(jPanel43Layout);
@@ -1478,7 +1481,8 @@ public class Fiche extends javax.swing.JFrame {
                                 .addGap(23, 23, 23)
                                 .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTextField3)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                                    .addComponent(jDateChooser5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -1494,7 +1498,9 @@ public class Fiche extends javax.swing.JFrame {
                     .addGroup(jPanel43Layout.createSequentialGroup()
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jDateChooser5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1808,26 +1814,24 @@ public class Fiche extends javax.swing.JFrame {
 
         jPanel53.setBackground(new java.awt.Color(189, 219, 243));
 
-        jLabel23.setText("Ajouter un nouveau certificat");
-
-        jScrollPane8.setBorder(javax.swing.BorderFactory.createTitledBorder("Notes"));
-        jScrollPane8.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        jTextArea3.setBackground(new java.awt.Color(189, 219, 243));
-        jTextArea3.setColumns(20);
-        jTextArea3.setLineWrap(true);
-        jTextArea3.setRows(5);
-        jScrollPane8.setViewportView(jTextArea3);
+        jLabel23.setText("Ajouter une nouvelle situation");
 
         jButton17.setText("Comfirmer");
 
         jButton18.setText("Vider");
 
-        jTextField4.setText("jTextField3");
-        jTextField4.setBorder(javax.swing.BorderFactory.createTitledBorder("Motif"));
+        jTextField4.setBackground(new java.awt.Color(189, 219, 243));
+        jTextField4.setBorder(javax.swing.BorderFactory.createTitledBorder("Montant"));
 
-        jDateChooser4.setBackground(new java.awt.Color(189, 219, 243));
-        jDateChooser4.setBorder(javax.swing.BorderFactory.createTitledBorder("Date"));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Espece", "Chèque", "Autre" }));
+        jComboBox2.setBorder(javax.swing.BorderFactory.createTitledBorder("Mode de paiement"));
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 - Radiologie 400 DH", "2 - Radiologie 600 DH", "3 - Radiologie 500 DH", "4 - Radiologie 300 DH", "5 - Radiologie 40 DH", " " }));
+        jComboBox3.setBorder(javax.swing.BorderFactory.createTitledBorder("Consultation"));
+
+        jLabel25.setFont(new java.awt.Font("SF Compact Text", 1, 18)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(204, 0, 0));
+        jLabel25.setText("Reste a payer : 1550 DH");
 
         javax.swing.GroupLayout jPanel53Layout = new javax.swing.GroupLayout(jPanel53);
         jPanel53.setLayout(jPanel53Layout);
@@ -1835,43 +1839,44 @@ public class Fiche extends javax.swing.JFrame {
             jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel53Layout.createSequentialGroup()
                 .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel53Layout.createSequentialGroup()
-                        .addGap(0, 371, Short.MAX_VALUE)
-                        .addComponent(jButton18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton17))
                     .addGroup(jPanel53Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel23))
+                    .addGroup(jPanel53Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
                         .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField4)
                             .addGroup(jPanel53Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel23))
-                            .addGroup(jPanel53Layout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField4)
-                                    .addComponent(jDateChooser4, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jComboBox3, 0, 244, Short.MAX_VALUE))
+                            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(90, 90, 90))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel53Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton18)
+                .addGap(18, 18, 18)
+                .addComponent(jButton17)
+                .addGap(27, 27, 27))
         );
         jPanel53Layout.setVerticalGroup(
             jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel53Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                    .addComponent(jComboBox2))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel53Layout.createSequentialGroup()
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton17)
-                    .addComponent(jButton18))
-                .addContainerGap())
+                    .addComponent(jButton18)
+                    .addComponent(jButton17))
+                .addGap(36, 36, 36))
         );
 
         jPanel51.add(jPanel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 570, 260));
@@ -1889,13 +1894,6 @@ public class Fiche extends javax.swing.JFrame {
             }
         });
 
-        jButton21.setText("Imprimer");
-        jButton21.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton21ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel54Layout = new javax.swing.GroupLayout(jPanel54);
         jPanel54.setLayout(jPanel54Layout);
         jPanel54Layout.setHorizontalGroup(
@@ -1905,15 +1903,13 @@ public class Fiche extends javax.swing.JFrame {
                 .addGroup(jPanel54Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(jLabel24)
-                    .addGap(7, 7, 7)
                     .addGroup(jPanel54Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel54Layout.createSequentialGroup()
-                            .addGap(190, 190, 190)
+                            .addGap(197, 197, 197)
                             .addComponent(jButton20))
                         .addGroup(jPanel54Layout.createSequentialGroup()
-                            .addGap(100, 100, 100)
-                            .addComponent(jButton19))
-                        .addComponent(jButton21))
+                            .addGap(107, 107, 107)
+                            .addComponent(jButton19)))
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel54Layout.setVerticalGroup(
@@ -1925,8 +1921,7 @@ public class Fiche extends javax.swing.JFrame {
                     .addGroup(jPanel54Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton20)
-                        .addComponent(jButton19)
-                        .addComponent(jButton21))
+                        .addComponent(jButton19))
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -2081,10 +2076,6 @@ public class Fiche extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton20ActionPerformed
 
-    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton21ActionPerformed
-
     public static void CustomDent(JButton btn , JLabel lab , JLabel lab_){
    
         btn.addMouseListener(new java.awt.event.MouseAdapter() 
@@ -2196,7 +2187,6 @@ public class Fiche extends javax.swing.JFrame {
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
-    private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -2205,10 +2195,12 @@ public class Fiche extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private com.toedter.calendar.JDateChooser jDateChooser3;
-    private com.toedter.calendar.JDateChooser jDateChooser4;
+    private com.toedter.calendar.JDateChooser jDateChooser5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2226,6 +2218,7 @@ public class Fiche extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
@@ -2302,7 +2295,6 @@ public class Fiche extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -2313,7 +2305,6 @@ public class Fiche extends javax.swing.JFrame {
     private javax.swing.JTable jTable4;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;

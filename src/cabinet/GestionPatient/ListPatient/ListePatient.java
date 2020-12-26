@@ -38,11 +38,8 @@ public class ListePatient extends javax.swing.JFrame {
         model.addColumn("Nom");
         model.addColumn("Prenom");
         model.addColumn("Date consulation");
-        // Ajjout des donnees depuis la liste
-        for (Patient patient : MenuGestionPatient.listePatient) {
-           model.addRow(new Object[]{patient.getId(),patient.getNom(),patient.getPrenom(),patient.getDate_debut_consultation()}); 
-        }
         
+        new ControllerListePatient().LoadData(TableList, model);
         TableList.setModel(model);
         
     }
@@ -81,6 +78,7 @@ public class ListePatient extends javax.swing.JFrame {
 
         jPanel1.setLayout(new java.awt.CardLayout());
 
+        TableList.setAutoCreateRowSorter(true);
         TableList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"Soussi", "Walid", "Mrid", "500", "En cour"},
@@ -107,7 +105,9 @@ public class ListePatient extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        TableList.setGridColor(new java.awt.Color(0, 0, 0));
         TableList.setName(""); // NOI18N
+        TableList.setShowGrid(true);
         TableList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableListMouseClicked(evt);
@@ -213,13 +213,6 @@ public class ListePatient extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditActionPerformed
 
-    private void TableListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableListMouseClicked
-        System.out.println(TableList.getModel().getValueAt(TableList.getSelectedRow(), 0)  );
-        btnEdit.setEnabled(true);
-        btnDelete.setEnabled(true);
-        btnConsulter.setEnabled(true);
-    }//GEN-LAST:event_TableListMouseClicked
-
     private void btnConsulterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnConsulterActionPerformed
@@ -228,6 +221,13 @@ public class ListePatient extends javax.swing.JFrame {
        this.setVisible(false);
        new Menu().setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void TableListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableListMouseClicked
+        System.out.println(TableList.getModel().getValueAt(TableList.getSelectedRow(), 0)  );
+        btnEdit.setEnabled(true);
+        btnDelete.setEnabled(true);
+        btnConsulter.setEnabled(true);
+    }//GEN-LAST:event_TableListMouseClicked
 
     /**
      * @param args the command line arguments

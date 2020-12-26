@@ -5,6 +5,7 @@
  */
 package cabinet.GestionPatient;
 
+import cabinet.GestionPatient.AjoutPatient.AjoutPatient;
 import cabinet.GestionPatient.Fiche.Fiche;
 import cabinet.GestionPatient.ListPatient.ListePatient;
 import cabinet.Menu;
@@ -18,11 +19,7 @@ import java.util.Date;
 public class MenuGestionPatient extends javax.swing.JFrame {
     
     
-    public static Patient[] listePatient = {
-        new Patient(1,"Soussi","Walid",new Date(12, 02, 2019)),
-        new Patient(2,"Rami","Bassma",new Date(12, 02, 2019)),
-        new Patient(3,"Essamit","Yassir",new Date(12, 02, 2019))
-    };
+    
         
     /**
      * Creates new form MenuGestionPatient
@@ -143,7 +140,7 @@ public class MenuGestionPatient extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.setVisible(false);
-        new Fiche().setVisible(true); 
+        new AjoutPatient().setVisible(true); 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

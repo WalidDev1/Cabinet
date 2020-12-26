@@ -5,9 +5,11 @@
  */
 package cabinet;
 
+import DOM.ConnectionDataBase;
 import cabinet.GestionPatient.MenuGestionPatient;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,6 +22,9 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
+        if(ConnectionDataBase.Connection() != null){
+            JOptionPane.showMessageDialog(null, "Connecter", "Alerte", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     /**
