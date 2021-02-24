@@ -5,13 +5,14 @@
  */
 package cabinet.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author admin
  */
-public class Certificat {
+public class Certificat implements Serializable{
 
     public int getId() {
         return id;

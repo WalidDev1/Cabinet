@@ -5,19 +5,38 @@
  */
 package cabinet.Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author admin
  */
-public class Dent {
+public class Dent implements Serializable{
     // id est la position de la dent sur le schema
-    int id ; 
-    String note;
+    int id = 0; 
+    String dent ;
 
-    public Dent(int id, String note) {
-        this.id = id;
-        this.note = note;
+    public Dent() {
     }
+
+    public Dent(String dent) {
+        this.id ++;
+        this.dent = dent;
+    }
+
+     public Dent(int id ,String dent) {
+        this.id = id ;
+        this.dent = dent;
+    }
+     
+    public String getDent() {
+        return dent;
+    }
+
+    public void setDent(String dent) {
+        this.dent = dent;
+    }
+  
 
     public int getId() {
         return id;
@@ -25,13 +44,5 @@ public class Dent {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 }

@@ -7,6 +7,7 @@ package cabinet.Model;
 
 import DataUser.DataManager;
 import cabinet.GestionPatient.AjoutPatient.AjoutPatientI;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.logging.Level;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author admin
  */
-public class Patient implements AjoutPatientI {
+public class Patient implements AjoutPatientI , IPatient , Serializable {
 
 
      int id;
@@ -28,6 +29,9 @@ public class Patient implements AjoutPatientI {
      String note;
      int age;
      Fiche fiche ;
+
+    public Patient() {
+    }
 
     public Fiche getFiche() {
         return fiche;
@@ -111,11 +115,16 @@ public class Patient implements AjoutPatientI {
              // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
              new DataManager().AddPatient(this);
              return true ;
-         } catch (SQLException ex) {
-             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
-             System.out.println("here 2");
+         } catch (Exception ex) {
          }
          return false;
+    }
+
+    @Override
+    public void SaveFiche() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+ 
+        new DataManager().SaveChangesPatient(this);
     }
     
 }

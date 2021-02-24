@@ -5,10 +5,19 @@
  */
 package cabinet.GestionPatient.ListPatient;
 
+import cabinet.GestionPatient.Fiche.FicheJ;
 import cabinet.GestionPatient.MenuGestionPatient;
 import cabinet.Menu;
 import cabinet.Model.Patient;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,31 +26,35 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ListePatient extends javax.swing.JFrame {
         
-
-    
+    MultiLineTableCellRenderer renderer = new MultiLineTableCellRenderer();
+    public static int selectedRow = -1;
     /**
      * Creates new form ListePatient
      */
-    public ListePatient() {
-        initComponents();
-        // Initialisation des donnees avec le tableaux
-        // Personnalisation des ligne 
-        DefaultTableModel model = new DefaultTableModel(){
+    
+    public ControllerListePatient controllerPatient = new ControllerListePatient();
+    public DefaultTableModel model = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int row, int column)
             {
               return false;//This causes all cells to be not editable
             }
         };
+    
+    public ListePatient() {
+        initComponents();
+        // Initialisation des donnees avec le tableaux
+        // Personnalisation des ligne 
+     
         // Declaration des colonnes
         model.addColumn("Id");
         model.addColumn("Nom");
         model.addColumn("Prenom");
         model.addColumn("Date consulation");
+        ActualiserTable();
         
-        new ControllerListePatient().LoadData(TableList, model);
+        TableList.setRowHeight(50);
         TableList.setModel(model);
-        
     }
 
     /**
@@ -148,10 +161,20 @@ public class ListePatient extends javax.swing.JFrame {
 
         btnDelete.setText("Supprimer");
         btnDelete.setEnabled(false);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 20, 180, 30));
 
         btnConsulter.setText("Consulter");
         btnConsulter.setEnabled(false);
+        btnConsulter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnConsulterMouseClicked(evt);
+            }
+        });
         btnConsulter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsulterActionPerformed(evt);
@@ -206,7 +229,11 @@ public class ListePatient extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.setVisible(false);
-        new MenuGestionPatient().setVisible(true);
+        try {
+            new MenuGestionPatient().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(ListePatient.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -214,7 +241,8 @@ public class ListePatient extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnConsulterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulterActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        new FicheJ().setVisible(true);
     }//GEN-LAST:event_btnConsulterActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -223,12 +251,26 @@ public class ListePatient extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void TableListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableListMouseClicked
-        System.out.println(TableList.getModel().getValueAt(TableList.getSelectedRow(), 0)  );
+        selectedRow = (int) TableList.getModel().getValueAt(TableList.getSelectedRow(), 0);
+       
         btnEdit.setEnabled(true);
         btnDelete.setEnabled(true);
         btnConsulter.setEnabled(true);
     }//GEN-LAST:event_TableListMouseClicked
 
+    private void btnConsulterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsulterMouseClicked
+        
+    }//GEN-LAST:event_btnConsulterMouseClicked
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+       controllerPatient.Supprimer(selectedRow);
+       ActualiserTable();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    
+    public void ActualiserTable(){
+        controllerPatient.LoadData(TableList, model);
+    }
     /**
      * @param args the command line arguments
      */

@@ -5,11 +5,13 @@
  */
 package cabinet.Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author admin
  */
-public class Docteur {
+public class Docteur implements Serializable {
     String nom ;
     String prenom;
     String log ;

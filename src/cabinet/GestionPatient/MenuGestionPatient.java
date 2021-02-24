@@ -6,11 +6,14 @@
 package cabinet.GestionPatient;
 
 import cabinet.GestionPatient.AjoutPatient.AjoutPatient;
-import cabinet.GestionPatient.Fiche.Fiche;
+import cabinet.GestionPatient.Fiche.FicheJ;
 import cabinet.GestionPatient.ListPatient.ListePatient;
 import cabinet.Menu;
 import cabinet.Model.Patient;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,7 +27,7 @@ public class MenuGestionPatient extends javax.swing.JFrame {
     /**
      * Creates new form MenuGestionPatient
      */
-    public MenuGestionPatient() {
+    public MenuGestionPatient() throws SQLException {
         initComponents();
     }
 
@@ -173,7 +176,11 @@ public class MenuGestionPatient extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuGestionPatient().setVisible(true);
+                try {
+                    new MenuGestionPatient().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MenuGestionPatient.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

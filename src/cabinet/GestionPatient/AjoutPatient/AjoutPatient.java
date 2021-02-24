@@ -10,7 +10,10 @@ import cabinet.GestionPatient.MenuGestionPatient;
 import cabinet.Model.Fiche;
 import cabinet.Model.Patient;
 import java.awt.Color;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -281,7 +284,11 @@ public class AjoutPatient extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.setVisible(false);
-        new MenuGestionPatient().setVisible(true);
+        try {
+            new MenuGestionPatient().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(AjoutPatient.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -290,7 +297,7 @@ public class AjoutPatient extends javax.swing.JFrame {
             sexe = 1 ;
         if(radioMr.isSelected())
             sexe = 2 ;
-       if(!Nom.getText().equals("") && !Prenom.getText().equals("") && sexe != 0 && !text_note.getText().equals("") && !Age.getValue().toString().equals("")){
+       if(!Nom.getText().equals("") && !Prenom.getText().equals("") && sexe != 0  && !Age.getValue().toString().equals("")){
            Patient pa = new Patient(0, Nom.getText(), Prenom.getText(), new Date() , sexe, text_note.getText(),Integer.parseInt(Age.getValue().toString()),new Fiche());
             if(pa.Enregistrer()){
                 this.setVisible(false);

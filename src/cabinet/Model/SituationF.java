@@ -5,25 +5,29 @@
  */
 package cabinet.Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author admin
  */
-public class SituationF {
+public class SituationF implements Serializable{
     
     int id ;
     // 1 == espece , 2 == cheques
     int mode;
     Consultation consultation ;
-    float prix;
-    float reste ;
+    float prixDeposer;
 
-    public SituationF(int id, int mode, Consultation consultation, float prix, float reste) {
+    public SituationF(int id, int mode, Consultation consultation, float prixDeposer) {
         this.id = id;
         this.mode = mode;
         this.consultation = consultation;
-        this.prix = prix;
-        this.reste = reste;
+        this.prixDeposer = prixDeposer;
+    }
+
+    public SituationF() {
+    
     }
 
     public int getId() {
@@ -50,20 +54,12 @@ public class SituationF {
         this.consultation = consultation;
     }
 
-    public float getPrix() {
-        return prix;
+    public float getPrixDeposer() {
+        return prixDeposer;
     }
 
-    public void setPrix(float prix) {
-        this.prix = prix;
+    public void setPrixDeposer(float prixDeposer) {
+        this.prixDeposer = prixDeposer;
     }
-
-    public float getReste() {
-        return reste;
-    }
-
-    public void setReste(float reste) {
-        this.reste = reste;
-    }
-    
+   
 }

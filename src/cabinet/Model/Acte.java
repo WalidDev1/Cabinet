@@ -5,11 +5,17 @@
  */
 package cabinet.Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author admin
  */
-public class Acte {
+public class Acte implements Serializable {
+
+    public Acte() {
+        
+    }
 
     public int getId() {
         return id;

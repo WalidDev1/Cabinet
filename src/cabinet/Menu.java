@@ -5,8 +5,10 @@
  */
 package cabinet;
 
-import DOM.ConnectionDataBase;
 import cabinet.GestionPatient.MenuGestionPatient;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -22,9 +24,7 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
-        if(ConnectionDataBase.Connection() != null){
-            JOptionPane.showMessageDialog(null, "Connecter", "Alerte", JOptionPane.INFORMATION_MESSAGE);
-        }
+        new DataUser.DataManager().Read();
     }
 
     /**
@@ -207,7 +207,11 @@ public class Menu extends javax.swing.JFrame {
 
     private void BtnGerePatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGerePatientActionPerformed
        this.setVisible(false);
-        new MenuGestionPatient().setVisible(true); 
+        try { 
+            new MenuGestionPatient().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_BtnGerePatientActionPerformed
 
     private void OnclickGerePatient(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_OnclickGerePatient

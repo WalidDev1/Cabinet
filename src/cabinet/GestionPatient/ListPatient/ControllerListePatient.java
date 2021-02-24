@@ -38,7 +38,7 @@ public class ControllerListePatient implements ListePatientI{
 
     @Override
     public Boolean Supprimer(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new DataManager().SupprimerPatient(id);
     }
 
     @Override

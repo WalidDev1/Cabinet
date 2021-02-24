@@ -3,22 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/GestionPatient/AjoutPatient/AjoutPatientI.java</file>
             <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/GestionPatient/ListPatient/ListePatientI.java</file>
-            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Model/Certificat.java</file>
-            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Model/SituationF.java</file>
-            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/GestionPatient/Fiche/Fiche.java</file>
             <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Menu.java</file>
             <file>file:/Users/admin/NetBeansProjects/Cabinet/src/DataUser/DataManager.java</file>
-            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Model/Dent.java</file>
             <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Model/Fiche.java</file>
-            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Model/Ordonnance.java</file>
-            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Model/Patient.java</file>
             <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/GestionPatient/AjoutPatient/AjoutPatient.java</file>
-            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Model/Docteur.java</file>
-            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Model/Acte.java</file>
-            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/DOM/ConnectionDataBase.java</file>
+            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Model/Patient.java</file>
+            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Cabinet.java</file>
+            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/GestionPatient/Fiche/FicheI.java</file>
+            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Model/Consultation.java</file>
             <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/GestionPatient/ListPatient/ControllerListePatient.java</file>
+            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/Model/IPatient.java</file>
+            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/GestionPatient/MenuGestionPatient.java</file>
             <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/GestionPatient/ListPatient/ListePatient.java</file>
+            <file>file:/Users/admin/NetBeansProjects/Cabinet/src/cabinet/GestionPatient/Fiche/FicheJ.java</file>
         </group>
     </open-files>
 </project-private>

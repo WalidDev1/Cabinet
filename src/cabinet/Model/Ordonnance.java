@@ -5,6 +5,7 @@
  */
 package cabinet.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Vector;
 
@@ -12,7 +13,7 @@ import java.util.Vector;
  *
  * @author admin
  */
-public class Ordonnance {
+public class Ordonnance implements Serializable{
     
     int id ;
     Date date ;

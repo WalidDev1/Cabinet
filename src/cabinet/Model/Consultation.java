@@ -5,6 +5,7 @@
  */
 package cabinet.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Vector;
 
@@ -12,14 +13,17 @@ import java.util.Vector;
  *
  * @author admin
  */
-public class Consultation {
+public class Consultation implements Serializable{
     
     int id ;
     Acte acte ;
     Date date ;
     String note ;
-    Vector<Dent> dents;
+    Dent dents;
     Float prix;
+
+    public Consultation() {
+    }
     
     public int getId() {
         return id;
@@ -53,11 +57,11 @@ public class Consultation {
         this.note = note;
     }
 
-    public Vector<Dent> getDents() {
+    public Dent getDents() {
         return dents;
     }
 
-    public void setDents(Vector<Dent> dents) {
+    public void setDents(Dent dents) {
         this.dents = dents;
     }
 
@@ -69,7 +73,7 @@ public class Consultation {
         this.prix = prix;
     }
 
-    public Consultation(int id, Acte acte, Date date, String note, Vector<Dent> dents, Float prix) {
+    public Consultation(int id, Acte acte, Date date, String note, Dent dents, Float prix) {
         this.id = id;
         this.acte = acte;
         this.date = date;

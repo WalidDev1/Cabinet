@@ -5,61 +5,59 @@
  */
 package cabinet.GestionPatient.Fiche;
 
+import DataUser.DataManager;
+import cabinet.GestionPatient.ListPatient.ListePatient;
+import cabinet.Model.Acte;
+import cabinet.Model.Certificat;
+import cabinet.Model.Consultation;
+import cabinet.Model.Dent;
+import cabinet.Model.Fiche;
+import cabinet.Model.Patient;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author admin
  */
-public class Fiche extends javax.swing.JFrame {
+public class FicheJ extends javax.swing.JFrame {
      
-    DefaultListModel<String> list_model = new DefaultListModel<String>();
+  
+    
+    public static Patient patient = new Patient();
+    public static Fiche ficheP = new Fiche();
+    
+    // Variable pour les Consultation
+    public static Dent dent = new Dent();
+    public static Vector<Consultation> listeCo = new Vector<Consultation>();
+    public static Consultation currentConsultation = new Consultation();
+    DefaultListModel<String> list_model ;
+    DefaultComboBoxModel<String> combo_liste_model;
+    DefaultTableModel modelTConsultation ;
+    public static JButton btnOld = new JButton();
+    public static JLabel labOld = new JLabel();
+    public static JLabel lab_Old = new JLabel();
+    
+    //Variable pour les certificat
+    public static Vector<Certificat> liste_Certificat = new Vector<Certificat>() ;
+    public static DefaultTableModel model_table_certif ;
     /**
      * Creates new form Fiche
      */
-    public Fiche() {
+    public FicheJ() {
         initComponents();
-        CustomDent(btn_dent_11 , label_11_droit , label_11_droit_);
-        CustomDent(btn_dent_12 , label_12_droit , label_12_droit_);
-        CustomDent(btn_dent_13 , label_13_droit , label_13_droit);
-        CustomDent(btn_dent_14 , label_14_droit , label_14_droit_);
-        CustomDent(btn_dent_15 , label_15_droit , label_15_droit_);
-        CustomDent(btn_dent_16 , label_16_droit , label_16_droit_);
-        CustomDent(btn_dent_17 , label_17_droit , label_17_droit_);
-        CustomDent(btn_dent_18 , label_18_droit , label_18_droit_);
-        CustomDent(dent_11_gauche , label_11_gauche , label_11_gauche_);
-        CustomDent(dent_12_gauche , label_12_gauche , label_12_gauche_);
-        CustomDent(dent_13_gauche , label_13_gauche , label_13_gauche_);
-        CustomDent(dent_14_gauche , label_14_gauche , label_14_gauche_);
-        CustomDent(dent_15_gauche , label_15_gauche , label_15_gauche_);
-        CustomDent(dent_16_gauche , label_16_gauche , label_16_gauche_);
-        CustomDent(dent_17_gauche , label_17_gauche , label_17_gauche_);
-        CustomDent(dent_18_gauche , label_18_gauche , label_18_gauche_);
-        // ----------
-        
-        CustomDent(dent_1_droit , label_1_droit , label_1_droit_);
-        CustomDent(dent_2_droit , label_2_droit , label_2_droit_);
-        CustomDent(dent_3_droit , label_3_droit , label_3_droit);
-        CustomDent(dent_4_droit , label_4_droit , label_4_droit_);
-        CustomDent(dent_5_droit , label_5_droit , label_5_droit_);
-        CustomDent(dent_6_droit , label_6_droit , label_6_droit_);
-        CustomDent(dent_7_droit , label_7_droit , label_7_droit_);
-        CustomDent(dent_8_droit , label_8_droit , label_8_droit_);
-        CustomDent(dent_1_gauche , label_1_gauche , label_1_gauche_);
-        CustomDent(dent_2_gauche , label_2_gauche , label_2_gauche_);
-        CustomDent(dent_3_gauche , label_3_gauche , label_3_gauche_);
-        CustomDent(dent_4_gauche , label_4_gauche , label_4_gauche_);
-        CustomDent(dent_5_gauche , label_5_gauche , label_5_gauche_);
-        CustomDent(dent_6_gauche , label_6_gauche , label_6_gauche_);
-        CustomDent(dent_7_gauche , label_7_gauche , label_7_gauche_);
-        CustomDent(dent_8_gauche , label_8_gauche , label_8_gauche_);
-       
+     
+        btnAjoutC.setVisible(false);
         // Customisation textaera
         scroll_note.getViewport().setOpaque(false);
         scroll_note.setBorder(null);
@@ -76,8 +74,69 @@ public class Fiche extends javax.swing.JFrame {
         text_note1.setBorder(null);
         text_note1.setBackground(new Color(0,0,0,0));
         text_note1.setLineWrap(true);
+        
+        // Tableaux de Consultation 
+        list_model = new DefaultListModel<String>();
+        combo_liste_model = new DefaultComboBoxModel<String>();
+        modelTConsultation = new DefaultTableModel();
+        modelTConsultation.addColumn("id");
+        modelTConsultation.addColumn("Acte");
+        modelTConsultation.addColumn("Date");
+        modelTConsultation.addColumn("Prix");
+        
+        
+        
+        new DataManager().actes.add(new Acte(1,"Radio"));
+        new DataManager().actes.add(new Acte(2,"Exdr"));
+        new DataManager().actes.add(new Acte(3,"Extraction ov"));
+        new DataManager().actes.add(new Acte(4,"Radio xx"));
+       
+        for (Acte acte : new DataManager().actes) {
+           combo_liste_model.addElement(acte.getNom());
+        }
+        comboActe.setModel(combo_liste_model);
+        tableauxConsultation.setRowHeight(50);
+        tableauxConsultation.setModel(modelTConsultation);
+        // --- end Table Consultation
+        
+        // Tableaux de Certificat
+        model_table_certif = new DefaultTableModel();
+        model_table_certif.addColumn("id");
+        model_table_certif.addColumn("Date debut");
+        model_table_certif.addColumn("Date fin");
+        model_table_certif.addColumn("Nombre de jours");
+        
+        
+           if (ficheP.loadData() == null) {
+            this.setVisible(false);
+            new ListePatient().setVisible(true);
+            
+        }
+        patient = ficheP.loadData();
+        // verifi
+        
+        
+        
+        currentConsultation.setDents(new Dent());
+        refreshDent();
+        
+        lab_dent.setVisible(false);
+        SyncData();
     }
-
+    
+    public void SyncData (){
+        if(patient.getFiche() != null){
+            listeCo = patient.getFiche().getConsultations();
+            if(listeCo != null){
+                for (Consultation consultation : listeCo) {
+                modelTConsultation.addRow(new Object[]{consultation.getId(),consultation.getActe().getNom() ,consultation.getDate(),consultation.getPrix()} );
+   
+            }
+            }
+            text_note1.setText(patient.getFiche().getNote()); 
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -119,14 +178,14 @@ public class Fiche extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        btn_dent_11 = new javax.swing.JButton();
-        btn_dent_12 = new javax.swing.JButton();
-        btn_dent_13 = new javax.swing.JButton();
-        btn_dent_14 = new javax.swing.JButton();
-        btn_dent_15 = new javax.swing.JButton();
-        btn_dent_16 = new javax.swing.JButton();
-        btn_dent_17 = new javax.swing.JButton();
-        btn_dent_18 = new javax.swing.JButton();
+        dent_11_droit = new javax.swing.JButton();
+        dent_12_droit = new javax.swing.JButton();
+        dent_13_droit = new javax.swing.JButton();
+        dent_14_droit = new javax.swing.JButton();
+        dent_15_droit = new javax.swing.JButton();
+        dent_16_droit = new javax.swing.JButton();
+        dent_17_droit = new javax.swing.JButton();
+        dent_18_droit = new javax.swing.JButton();
         label_15_droit = new javax.swing.JLabel();
         label_14_droit = new javax.swing.JLabel();
         label_13_droit = new javax.swing.JLabel();
@@ -244,27 +303,29 @@ public class Fiche extends javax.swing.JFrame {
         label_3_gauche = new javax.swing.JLabel();
         label_2_gauche = new javax.swing.JLabel();
         label_1_gauche = new javax.swing.JLabel();
+        lab_dent = new javax.swing.JLabel();
         jPanel37 = new javax.swing.JPanel();
         scroll_note1 = new javax.swing.JScrollPane();
         text_note1 = new javax.swing.JTextArea();
         jLabel14 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabed_pane = new javax.swing.JTabbedPane();
         jPanel39 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableauxConsultation = new javax.swing.JTable();
         jPanel40 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboActe = new javax.swing.JComboBox<>();
         jPanel41 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        prixConsultation = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        textNote = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jLabel19 = new javax.swing.JLabel();
+        dateActe = new com.toedter.calendar.JDateChooser();
+        lab_lnfo = new javax.swing.JLabel();
+        btnAjoutC = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
@@ -276,12 +337,12 @@ public class Fiche extends javax.swing.JFrame {
         jPanel43 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        note_certif = new javax.swing.JTextArea();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser5 = new com.toedter.calendar.JDateChooser();
+        motif_certif = new javax.swing.JTextField();
+        date_debut_certif = new com.toedter.calendar.JDateChooser();
+        date_fin_certif = new com.toedter.calendar.JDateChooser();
         jPanel45 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
@@ -334,6 +395,11 @@ public class Fiche extends javax.swing.JFrame {
         jPanel24.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.TRAILING, 50, 5));
 
         jButton4.setText("Retour");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
         jPanel24.add(jButton4);
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -372,6 +438,7 @@ public class Fiche extends javax.swing.JFrame {
 
         jPanel32.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel5.setBackground(new java.awt.Color(153, 255, 255));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/User/men.png"))); // NOI18N
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -551,95 +618,95 @@ public class Fiche extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btn_dent_11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_11_droit.png"))); // NOI18N
-        btn_dent_11.setToolTipText("dent_11_droit");
-        btn_dent_11.setBorderPainted(false);
-        btn_dent_11.setContentAreaFilled(false);
-        btn_dent_11.addActionListener(new java.awt.event.ActionListener() {
+        dent_11_droit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_11_droit.png"))); // NOI18N
+        dent_11_droit.setToolTipText("dent_11_droit");
+        dent_11_droit.setBorderPainted(false);
+        dent_11_droit.setContentAreaFilled(false);
+        dent_11_droit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_dent_11ActionPerformed(evt);
+                dent_11_droitActionPerformed(evt);
             }
         });
-        jPanel3.add(btn_dent_11, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 40, 32));
+        jPanel3.add(dent_11_droit, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 40, 32));
 
-        btn_dent_12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_12_droit.png"))); // NOI18N
-        btn_dent_12.setToolTipText("dent_12_droit");
-        btn_dent_12.setBorderPainted(false);
-        btn_dent_12.setContentAreaFilled(false);
-        jPanel3.add(btn_dent_12, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 30, 32));
+        dent_12_droit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_12_droit.png"))); // NOI18N
+        dent_12_droit.setToolTipText("dent_12_droit");
+        dent_12_droit.setBorderPainted(false);
+        dent_12_droit.setContentAreaFilled(false);
+        jPanel3.add(dent_12_droit, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 30, 32));
 
-        btn_dent_13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_13_droit.png"))); // NOI18N
-        btn_dent_13.setToolTipText("dent_13_droit");
-        btn_dent_13.setBorderPainted(false);
-        btn_dent_13.setContentAreaFilled(false);
-        jPanel3.add(btn_dent_13, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 40, 32));
+        dent_13_droit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_13_droit.png"))); // NOI18N
+        dent_13_droit.setToolTipText("dent_13_droit");
+        dent_13_droit.setBorderPainted(false);
+        dent_13_droit.setContentAreaFilled(false);
+        jPanel3.add(dent_13_droit, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 40, 32));
 
-        btn_dent_14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_14_droit.png"))); // NOI18N
-        btn_dent_14.setToolTipText("dent_14_droit");
-        btn_dent_14.setBorderPainted(false);
-        btn_dent_14.setContentAreaFilled(false);
-        jPanel3.add(btn_dent_14, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 40, 32));
+        dent_14_droit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_14_droit.png"))); // NOI18N
+        dent_14_droit.setToolTipText("dent_14_droit");
+        dent_14_droit.setBorderPainted(false);
+        dent_14_droit.setContentAreaFilled(false);
+        jPanel3.add(dent_14_droit, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 40, 32));
 
-        btn_dent_15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_15_droit.png"))); // NOI18N
-        btn_dent_15.setToolTipText("dent_15_droit");
-        btn_dent_15.setBorderPainted(false);
-        btn_dent_15.setContentAreaFilled(false);
-        jPanel3.add(btn_dent_15, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 40, 32));
+        dent_15_droit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_15_droit.png"))); // NOI18N
+        dent_15_droit.setToolTipText("dent_15_droit");
+        dent_15_droit.setBorderPainted(false);
+        dent_15_droit.setContentAreaFilled(false);
+        jPanel3.add(dent_15_droit, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 40, 32));
 
-        btn_dent_16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_16_droit.png"))); // NOI18N
-        btn_dent_16.setToolTipText("dent_16_droit");
-        btn_dent_16.setBorderPainted(false);
-        btn_dent_16.setContentAreaFilled(false);
-        btn_dent_16.addActionListener(new java.awt.event.ActionListener() {
+        dent_16_droit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_16_droit.png"))); // NOI18N
+        dent_16_droit.setToolTipText("dent_16_droit");
+        dent_16_droit.setBorderPainted(false);
+        dent_16_droit.setContentAreaFilled(false);
+        dent_16_droit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_dent_16ActionPerformed(evt);
+                dent_16_droitActionPerformed(evt);
             }
         });
-        jPanel3.add(btn_dent_16, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 50, 50));
+        jPanel3.add(dent_16_droit, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 50, 50));
 
-        btn_dent_17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_17_droit.png"))); // NOI18N
-        btn_dent_17.setToolTipText("dent_17_droit");
-        btn_dent_17.setBorderPainted(false);
-        btn_dent_17.setContentAreaFilled(false);
-        btn_dent_17.addMouseListener(new java.awt.event.MouseAdapter() {
+        dent_17_droit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_17_droit.png"))); // NOI18N
+        dent_17_droit.setToolTipText("dent_17_droit");
+        dent_17_droit.setBorderPainted(false);
+        dent_17_droit.setContentAreaFilled(false);
+        dent_17_droit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_dent_17MouseClicked(evt);
+                dent_17_droitMouseClicked(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn_dent_17MouseExited(evt);
+                dent_17_droitMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn_dent_17MouseEntered(evt);
+                dent_17_droitMouseEntered(evt);
             }
         });
-        btn_dent_17.addActionListener(new java.awt.event.ActionListener() {
+        dent_17_droit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_dent_17ActionPerformed(evt);
+                dent_17_droitActionPerformed(evt);
             }
         });
-        jPanel3.add(btn_dent_17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 40, 40));
+        jPanel3.add(dent_17_droit, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 40, 40));
 
-        btn_dent_18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_18_droit.png"))); // NOI18N
-        btn_dent_18.setToolTipText("dent_18_droit");
-        btn_dent_18.setBorderPainted(false);
-        btn_dent_18.setContentAreaFilled(false);
-        btn_dent_18.addMouseListener(new java.awt.event.MouseAdapter() {
+        dent_18_droit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/Dent/dent_18_droit.png"))); // NOI18N
+        dent_18_droit.setToolTipText("dent_18_droit");
+        dent_18_droit.setBorderPainted(false);
+        dent_18_droit.setContentAreaFilled(false);
+        dent_18_droit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_dent_18MouseClicked(evt);
+                dent_18_droitMouseClicked(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn_dent_18MouseExited(evt);
+                dent_18_droitMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn_dent_18MouseEntered(evt);
+                dent_18_droitMouseEntered(evt);
             }
         });
-        btn_dent_18.addActionListener(new java.awt.event.ActionListener() {
+        dent_18_droit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_dent_18ActionPerformed(evt);
+                dent_18_droitActionPerformed(evt);
             }
         });
-        jPanel3.add(btn_dent_18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 40, 32));
+        jPanel3.add(dent_18_droit, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 40, 32));
 
         label_15_droit.setFont(new java.awt.Font("SF Compact Rounded", 1, 14)); // NOI18N
         label_15_droit.setText("15");
@@ -1111,7 +1178,7 @@ public class Fiche extends javax.swing.JFrame {
         label_1_droit.setText("41");
         jPanel21.add(label_1_droit, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, -1, -1));
 
-        jPanel7.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, -1, -1));
+        jPanel7.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, -1, 220));
 
         jPanel22.setBackground(new java.awt.Color(255, 255, 255));
         jPanel22.setPreferredSize(new java.awt.Dimension(100, 493));
@@ -1122,9 +1189,10 @@ public class Fiche extends javax.swing.JFrame {
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel22.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-2, 140, 10, 40));
 
-        jPanel7.add(jPanel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 4, 10, 230));
+        jPanel7.add(jPanel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 4, 10, 210));
 
         jPanel23.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel23.setForeground(new java.awt.Color(255, 153, 0));
         jPanel23.setPreferredSize(new java.awt.Dimension(190, 242));
         jPanel23.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -1208,7 +1276,12 @@ public class Fiche extends javax.swing.JFrame {
         label_1_gauche.setText("31");
         jPanel23.add(label_1_gauche, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
 
-        jPanel7.add(jPanel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 170, 230));
+        jPanel7.add(jPanel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 170, 210));
+
+        lab_dent.setForeground(new java.awt.Color(204, 0, 0));
+        lab_dent.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lab_dent.setText("Attention vous modifier la dent de ligne selectionne !!");
+        jPanel7.add(lab_dent, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 380, -1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1255,14 +1328,20 @@ public class Fiche extends javax.swing.JFrame {
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jSeparator3.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
 
-        jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
-        jTabbedPane1.setFont(new java.awt.Font("SF Pro Display", 0, 14)); // NOI18N
+        tabed_pane.setBackground(new java.awt.Color(255, 204, 51));
+        tabed_pane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tabed_pane.setFont(new java.awt.Font("SF Pro Display", 0, 14)); // NOI18N
+        tabed_pane.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabed_paneMouseClicked(evt);
+            }
+        });
 
         jPanel39.setBackground(new java.awt.Color(255, 255, 255));
         jPanel39.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel39.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableauxConsultation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -1273,7 +1352,16 @@ public class Fiche extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tableauxConsultation.setGridColor(new java.awt.Color(0, 0, 0));
+        tableauxConsultation.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableauxConsultationMousePressed(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableauxConsultationMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableauxConsultation);
 
         jPanel39.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 570, 410));
 
@@ -1281,8 +1369,8 @@ public class Fiche extends javax.swing.JFrame {
 
         jLabel4.setText("Ajouter un nouveau acte");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setBorder(javax.swing.BorderFactory.createTitledBorder("Sélectionner un acte"));
+        comboActe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboActe.setBorder(javax.swing.BorderFactory.createTitledBorder("Sélectionner un acte"));
 
         jPanel41.setBackground(new java.awt.Color(189, 219, 243));
         jPanel41.setBorder(javax.swing.BorderFactory.createTitledBorder("Prix"));
@@ -1290,43 +1378,60 @@ public class Fiche extends javax.swing.JFrame {
         jLabel15.setText("DH");
         jLabel15.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        prixConsultation.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel41Layout = new javax.swing.GroupLayout(jPanel41);
         jPanel41.setLayout(jPanel41Layout);
         jPanel41Layout.setHorizontalGroup(
             jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel41Layout.createSequentialGroup()
-                .addComponent(jTextField1)
+                .addComponent(prixConsultation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel41Layout.setVerticalGroup(
             jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+            .addComponent(prixConsultation, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
             .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Notes"));
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jTextArea1.setBackground(new java.awt.Color(189, 219, 243));
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        textNote.setBackground(new java.awt.Color(189, 219, 243));
+        textNote.setColumns(20);
+        textNote.setLineWrap(true);
+        textNote.setRows(5);
+        jScrollPane2.setViewportView(textNote);
 
         jButton2.setText("Comfirmer");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Vider");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
-        jDateChooser2.setBackground(new java.awt.Color(189, 219, 243));
-        jDateChooser2.setBorder(javax.swing.BorderFactory.createTitledBorder("Date"));
+        dateActe.setBackground(new java.awt.Color(189, 219, 243));
+        dateActe.setBorder(javax.swing.BorderFactory.createTitledBorder("Date"));
 
-        jLabel19.setForeground(new java.awt.Color(204, 0, 0));
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/icone_notice.png"))); // NOI18N
-        jLabel19.setText("Veuillez selectionner les dent inpliquer");
+        lab_lnfo.setForeground(new java.awt.Color(204, 0, 0));
+        lab_lnfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Media/icone_notice.png"))); // NOI18N
+        lab_lnfo.setText("Veuillez selectionner les dent inpliquer");
+
+        btnAjoutC.setText("Ajouter un Nouvelle consultation");
+        btnAjoutC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAjoutCActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel40Layout = new javax.swing.GroupLayout(jPanel40);
         jPanel40.setLayout(jPanel40Layout);
@@ -1335,18 +1440,20 @@ public class Fiche extends javax.swing.JFrame {
             .addGroup(jPanel40Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAjoutC)
+                .addGap(22, 22, 22))
             .addGroup(jPanel40Layout.createSequentialGroup()
                 .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel40Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 276, Short.MAX_VALUE)
+                            .addComponent(comboActe, javax.swing.GroupLayout.Alignment.LEADING, 0, 276, Short.MAX_VALUE)
                             .addComponent(jPanel41, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(dateActe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel40Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel19)))
+                        .addComponent(lab_lnfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel40Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1363,8 +1470,10 @@ public class Fiche extends javax.swing.JFrame {
             jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel40Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
+                .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(btnAjoutC))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel40Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1373,13 +1482,13 @@ public class Fiche extends javax.swing.JFrame {
                             .addComponent(jButton2)
                             .addComponent(jButton3)))
                     .addGroup(jPanel40Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboActe, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(dateActe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel41, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(lab_lnfo)))
                 .addContainerGap())
         );
 
@@ -1414,7 +1523,7 @@ public class Fiche extends javax.swing.JFrame {
 
         jPanel39.add(jPanel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 670, 570, 50));
 
-        jTabbedPane1.addTab("Consultation", jPanel39);
+        tabed_pane.addTab("Consultation", jPanel39);
 
         jPanel42.setBackground(new java.awt.Color(255, 255, 255));
         jPanel42.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1442,24 +1551,24 @@ public class Fiche extends javax.swing.JFrame {
         jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder("Notes"));
         jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jTextArea2.setBackground(new java.awt.Color(189, 219, 243));
-        jTextArea2.setColumns(20);
-        jTextArea2.setLineWrap(true);
-        jTextArea2.setRows(5);
-        jScrollPane4.setViewportView(jTextArea2);
+        note_certif.setBackground(new java.awt.Color(189, 219, 243));
+        note_certif.setColumns(20);
+        note_certif.setLineWrap(true);
+        note_certif.setRows(5);
+        jScrollPane4.setViewportView(note_certif);
 
         jButton7.setText("Comfirmer");
 
         jButton8.setText("Vider");
 
-        jTextField3.setBackground(new java.awt.Color(189, 219, 243));
-        jTextField3.setBorder(javax.swing.BorderFactory.createTitledBorder("Motif"));
+        motif_certif.setBackground(new java.awt.Color(189, 219, 243));
+        motif_certif.setBorder(javax.swing.BorderFactory.createTitledBorder("Motif"));
 
-        jDateChooser1.setBackground(new java.awt.Color(189, 219, 243));
-        jDateChooser1.setBorder(javax.swing.BorderFactory.createTitledBorder("Date"));
+        date_debut_certif.setBackground(new java.awt.Color(189, 219, 243));
+        date_debut_certif.setBorder(javax.swing.BorderFactory.createTitledBorder("Date debut"));
 
-        jDateChooser5.setBackground(new java.awt.Color(189, 219, 243));
-        jDateChooser5.setBorder(javax.swing.BorderFactory.createTitledBorder("Date fin"));
+        date_fin_certif.setBackground(new java.awt.Color(189, 219, 243));
+        date_fin_certif.setBorder(javax.swing.BorderFactory.createTitledBorder("Date fin"));
 
         javax.swing.GroupLayout jPanel43Layout = new javax.swing.GroupLayout(jPanel43);
         jPanel43.setLayout(jPanel43Layout);
@@ -1480,9 +1589,9 @@ public class Fiche extends javax.swing.JFrame {
                             .addGroup(jPanel43Layout.createSequentialGroup()
                                 .addGap(23, 23, 23)
                                 .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField3)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-                                    .addComponent(jDateChooser5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(motif_certif)
+                                    .addComponent(date_debut_certif, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                                    .addComponent(date_fin_certif, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -1496,11 +1605,11 @@ public class Fiche extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel43Layout.createSequentialGroup()
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(motif_certif, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(date_debut_certif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jDateChooser5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(date_fin_certif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1580,7 +1689,7 @@ public class Fiche extends javax.swing.JFrame {
             .addComponent(jPanel42, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Certificats", jPanel38);
+        tabed_pane.addTab("Certificats", jPanel38);
 
         jPanel47.setBackground(new java.awt.Color(255, 255, 255));
         jPanel47.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1791,7 +1900,7 @@ public class Fiche extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        jTabbedPane1.addTab("Ordonnances", jPanel31);
+        tabed_pane.addTab("Ordonnances", jPanel31);
 
         jPanel51.setBackground(new java.awt.Color(255, 255, 255));
         jPanel51.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1940,7 +2049,7 @@ public class Fiche extends javax.swing.JFrame {
             .addComponent(jPanel51, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Situation financiére", jPanel30);
+        tabed_pane.addTab("Situation financiére", jPanel30);
 
         javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
         jPanel29.setLayout(jPanel29Layout);
@@ -1950,9 +2059,9 @@ public class Fiche extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addComponent(jPanel37, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1)
+                .addComponent(tabed_pane)
                 .addContainerGap())
             .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel29Layout.createSequentialGroup()
@@ -1961,16 +2070,18 @@ public class Fiche extends javax.swing.JFrame {
         );
         jPanel29Layout.setVerticalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator3)
-            .addComponent(jTabbedPane1)
+            .addComponent(tabed_pane)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel37, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(13, 13, 13))
+            .addGroup(jPanel29Layout.createSequentialGroup()
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 739, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel29Layout.createSequentialGroup()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 159, Short.MAX_VALUE)))
+                    .addGap(0, 165, Short.MAX_VALUE)))
         );
 
         getContentPane().add(jPanel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 90, 1010, 780));
@@ -1979,42 +2090,42 @@ public class Fiche extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_dent_16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_dent_16ActionPerformed
+    private void dent_16_droitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dent_16_droitActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_dent_16ActionPerformed
+    }//GEN-LAST:event_dent_16_droitActionPerformed
 
-    private void btn_dent_11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_dent_11ActionPerformed
+    private void dent_11_droitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dent_11_droitActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_dent_11ActionPerformed
+    }//GEN-LAST:event_dent_11_droitActionPerformed
 
-    private void btn_dent_18MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_dent_18MouseEntered
-    }//GEN-LAST:event_btn_dent_18MouseEntered
+    private void dent_18_droitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dent_18_droitMouseEntered
+    }//GEN-LAST:event_dent_18_droitMouseEntered
 
-    private void btn_dent_18MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_dent_18MouseExited
-    }//GEN-LAST:event_btn_dent_18MouseExited
+    private void dent_18_droitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dent_18_droitMouseExited
+    }//GEN-LAST:event_dent_18_droitMouseExited
 
-    private void btn_dent_18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_dent_18MouseClicked
-    }//GEN-LAST:event_btn_dent_18MouseClicked
+    private void dent_18_droitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dent_18_droitMouseClicked
+    }//GEN-LAST:event_dent_18_droitMouseClicked
 
-    private void btn_dent_17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_dent_17MouseClicked
+    private void dent_17_droitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dent_17_droitMouseClicked
      
-    }//GEN-LAST:event_btn_dent_17MouseClicked
+    }//GEN-LAST:event_dent_17_droitMouseClicked
 
-    private void btn_dent_17MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_dent_17MouseEntered
+    private void dent_17_droitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dent_17_droitMouseEntered
    
-    }//GEN-LAST:event_btn_dent_17MouseEntered
+    }//GEN-LAST:event_dent_17_droitMouseEntered
 
-    private void btn_dent_17MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_dent_17MouseExited
+    private void dent_17_droitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dent_17_droitMouseExited
    
-    }//GEN-LAST:event_btn_dent_17MouseExited
+    }//GEN-LAST:event_dent_17_droitMouseExited
 
-    private void btn_dent_17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_dent_17ActionPerformed
+    private void dent_17_droitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dent_17_droitActionPerformed
        
-    }//GEN-LAST:event_btn_dent_17ActionPerformed
+    }//GEN-LAST:event_dent_17_droitActionPerformed
 
-    private void btn_dent_18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_dent_18ActionPerformed
+    private void dent_18_droitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dent_18_droitActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_dent_18ActionPerformed
+    }//GEN-LAST:event_dent_18_droitActionPerformed
 
     private void dent_11_gaucheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dent_11_gaucheActionPerformed
         // TODO add your handling code here:
@@ -2076,34 +2187,244 @@ public class Fiche extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton20ActionPerformed
 
-    public static void CustomDent(JButton btn , JLabel lab , JLabel lab_){
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Acte idActe = null ;
+        
+        for (Acte acte : DataManager.actes) {
+            if(acte.getNom().equals(comboActe.getSelectedItem())){
+                idActe = acte;
+            }
+        }
+        
+        patient.getFiche().ComfirmerC(new Consultation(patient.getFiche().getConsultations().size() + 1,idActe , dateActe.getDate(), textNote.getText(), currentConsultation.getDents(), Float.parseFloat(prixConsultation.getText())));
+       
+        patient.SaveFiche();
+        for (Consultation consultation : listeCo) {
+            System.out.println(consultation.getId());
+            modelTConsultation.addRow(new Object[]{consultation.getId(),consultation.getActe().getNom() ,consultation.getDate(),consultation.getPrix()} );
    
-        btn.addMouseListener(new java.awt.event.MouseAdapter() 
-                           {
-                 @Override
-                 public void mouseClicked(java.awt.event.MouseEvent evt) 
-                 {
-                  btn.setIcon(new ImageIcon("src/Media/Dent/"+btn.getToolTipText()+"_select.png")); 
-                  lab.setForeground(Color.getHSBColor(353, 80, 78));
-                  lab_.setForeground(Color.getHSBColor(353, 80, 78));
-                 }
-                 @Override
-                 public void mouseEntered(java.awt.event.MouseEvent evt) 
-                                 {
-                       btn.setIcon(new ImageIcon("src/Media/Dent/"+btn.getToolTipText()+"_hover.png"));
-                       lab.setForeground(Color.orange);
-                       lab_.setForeground(Color.orange);
-                 }
-                 @Override
-                 public void mouseExited(java.awt.event.MouseEvent evt) 
-                                 {
-                   btn.setIcon(new ImageIcon("src/Media/Dent/"+btn.getToolTipText()+".png")); 
+        }
+        
+        Vider(0);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+      Vider(0);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tableauxConsultationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableauxConsultationMouseClicked
+
+        for (Consultation consultation : patient.getFiche().getConsultations()) {
+            if(consultation.getId() == (int) tableauxConsultation.getValueAt(tableauxConsultation.getSelectedRow(), 0)){
+                comboActe.setSelectedItem(consultation.getActe().getNom());
+                dateActe.setDate(consultation.getDate());
+                prixConsultation.setText(consultation.getPrix().toString());
+                textNote.setText(consultation.getNote());
+                currentConsultation = consultation;
+                if(!currentConsultation.getDents().getDent().equals("")){
+                    lab_dent.setVisible(true);
+                }
+                break;
+            }
+        }
+        refreshDent();
+        btnAjoutC.setVisible(true);
+    }//GEN-LAST:event_tableauxConsultationMouseClicked
+
+    private void tabed_paneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabed_paneMouseClicked
+      if(tabed_pane.getSelectedIndex() == 0){
+          DentEtat(true);
+      }else{
+         DentEtat(false);
+      }
+    }//GEN-LAST:event_tabed_paneMouseClicked
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+      this.setVisible(false);
+      new ListePatient().setVisible(true);
+    }//GEN-LAST:event_jButton4MouseClicked
+
+    private void tableauxConsultationMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableauxConsultationMousePressed
+        System.out.println("cabinet.GestionPatient.Fiche.FicheJ.tableauxConsultationMousePressed()");        // TODO add your handling code here:
+    }//GEN-LAST:event_tableauxConsultationMousePressed
+
+    private void btnAjoutCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAjoutCActionPerformed
+       Vider(0);
+       tableauxConsultation.clearSelection();
+       btnAjoutC.setVisible(false);
+       
+    }//GEN-LAST:event_btnAjoutCActionPerformed
+    
+    public static void Vider(int val){
+        switch(val){
+            case 0 :
+                dateActe.setDate(null);
+                prixConsultation.setText("");
+                textNote.setText("");
+                currentConsultation = new Consultation();
+                currentConsultation.setDents(new Dent());
+                lab_dent.setVisible(false);
+                refreshDent();
+                break;
+            default:
+                break;
+        }
+    }
+    
+    public static void refreshDent(){
+        CustomDent(dent_11_droit , label_11_droit , label_11_droit_);
+        CustomDent(dent_12_droit , label_12_droit , label_12_droit_);
+        CustomDent(dent_13_droit , label_13_droit , label_13_droit_);
+        CustomDent(dent_14_droit , label_14_droit , label_14_droit_);
+        CustomDent(dent_15_droit , label_15_droit , label_15_droit_);
+        CustomDent(dent_16_droit , label_16_droit , label_16_droit_);
+        CustomDent(dent_17_droit , label_17_droit , label_17_droit_);
+        CustomDent(dent_18_droit , label_18_droit , label_18_droit_);
+        CustomDent(dent_11_gauche , label_11_gauche , label_11_gauche_);
+        CustomDent(dent_12_gauche , label_12_gauche , label_12_gauche_);
+        CustomDent(dent_13_gauche , label_13_gauche , label_13_gauche_);
+        CustomDent(dent_14_gauche , label_14_gauche , label_14_gauche_);
+        CustomDent(dent_15_gauche , label_15_gauche , label_15_gauche_);
+        CustomDent(dent_16_gauche , label_16_gauche , label_16_gauche_);
+        CustomDent(dent_17_gauche , label_17_gauche , label_17_gauche_);
+        CustomDent(dent_18_gauche , label_18_gauche , label_18_gauche_);
+        // ----------
+        
+        CustomDent(dent_1_droit , label_1_droit , label_1_droit_);
+        CustomDent(dent_2_droit , label_2_droit , label_2_droit_);
+        CustomDent(dent_3_droit , label_3_droit , label_3_droit_);
+        CustomDent(dent_4_droit , label_4_droit , label_4_droit_);
+        CustomDent(dent_5_droit , label_5_droit , label_5_droit_);
+        CustomDent(dent_6_droit , label_6_droit , label_6_droit_);
+        CustomDent(dent_7_droit , label_7_droit , label_7_droit_);
+        CustomDent(dent_8_droit , label_8_droit , label_8_droit_);
+        CustomDent(dent_1_gauche , label_1_gauche , label_1_gauche_);
+        CustomDent(dent_2_gauche , label_2_gauche , label_2_gauche_);
+        CustomDent(dent_3_gauche , label_3_gauche , label_3_gauche_);
+        CustomDent(dent_4_gauche , label_4_gauche , label_4_gauche_);
+        CustomDent(dent_5_gauche , label_5_gauche , label_5_gauche_);
+        CustomDent(dent_6_gauche , label_6_gauche , label_6_gauche_);
+        CustomDent(dent_7_gauche , label_7_gauche , label_7_gauche_);
+        CustomDent(dent_8_gauche , label_8_gauche , label_8_gauche_);
+    }
+     
+    public static void CustomDent(JButton btn , JLabel lab , JLabel lab_){
+      
+        if(btn.getToolTipText().equals(currentConsultation.getDents().getDent())){
+            btn.setIcon(new ImageIcon("src/Media/Dent/"+currentConsultation.getDents().getDent()+"_select.png")); 
+            lab.setForeground(Color.getHSBColor(353, 80, 78));
+            lab_.setForeground(Color.getHSBColor(353, 80, 78));
+            lab_lnfo.setText("<html>Pour deselecionner une dent <br>cliquer deux fois</html>");
+            lab_lnfo.setForeground(new Color(51,204,0));
+        }else{
+            btn.setIcon(new ImageIcon("src/Media/Dent/"+btn.getToolTipText()+".png")); 
+            lab.setForeground(Color.black);
+            lab_.setForeground(Color.black);
+        }
+         
+        
+        btn.addMouseListener(new java.awt.event.MouseAdapter(){
+            
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt){
+                
+                if(evt.getClickCount() == 2){
+                    if(btn.getToolTipText().equals(currentConsultation.getDents().getDent())){
+                        btn.setIcon(new ImageIcon("src/Media/Dent/"+btn.getToolTipText()+".png")); 
                         lab.setForeground(Color.black);
                         lab_.setForeground(Color.black);
-                 }
-                 
-                   });
+                        currentConsultation.setDents(new Dent());
+                        lab_lnfo.setText("Veuillez selectionner les dent inpliquer");
+                        lab_lnfo.setForeground(new Color(204,0,0));
+                    }
+                }else{
+                    btn.setIcon(new ImageIcon("src/Media/Dent/"+btn.getToolTipText()+"_select.png")); 
+                    lab.setForeground(Color.getHSBColor(353, 80, 78));
+                    lab_.setForeground(Color.getHSBColor(353, 80, 78));
+                        if(currentConsultation.getDents().getDent() != null){
+                            btnOld.setIcon(new ImageIcon("src/Media/Dent/"+btnOld.getToolTipText()+".png")); 
+                            labOld.setForeground(Color.black);
+                            lab_Old.setForeground(Color.black);
+                        }
+                    currentConsultation.setDents(new Dent(btn.getToolTipText()));
+                    btnOld = btn ;
+                    labOld = lab;
+                    lab_Old = lab_;
+                    lab_lnfo.setText("<html>Pour deselecionner une dent <br>cliquer deux fois</html>");
+                    lab_lnfo.setForeground(new Color(51,204,0));
+                    if(tableauxConsultation.getSelectedRow() != -1){
+                        lab_dent.setVisible(true);
+                    }
+                    
+                }
+                
+            }
+            
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt){
+                btn.setIcon(new ImageIcon("src/Media/Dent/"+btn.getToolTipText()+"_hover.png"));
+                lab.setForeground(Color.orange);
+                lab_.setForeground(Color.orange);
+                
+            }
+            
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt){
+                
+                btn.setIcon(new ImageIcon("src/Media/Dent/"+btn.getToolTipText()+".png")); 
+                lab.setForeground(Color.black);
+                lab_.setForeground(Color.black);
+              
+                    if(btn.getToolTipText().equals(currentConsultation.getDents().getDent())){
+                        btn.setIcon(new ImageIcon("src/Media/Dent/"+currentConsultation.getDents().getDent()+"_select.png")); 
+                        lab.setForeground(Color.getHSBColor(353, 80, 78));
+                        lab_.setForeground(Color.getHSBColor(353, 80, 78));
+                    }
+                    
+            }
+            
+         });
+       
+                
     }
+    
+    public static void DentEtat(boolean val){
+        dent_11_droit.setEnabled(val);
+        dent_11_droit.setEnabled(val);
+        dent_12_droit.setEnabled(val);
+        dent_13_droit.setEnabled(val);
+        dent_14_droit.setEnabled(val);
+        dent_15_droit.setEnabled(val);
+        dent_16_droit.setEnabled(val);
+        dent_17_droit.setEnabled(val);
+        dent_18_droit.setEnabled(val);
+        dent_11_gauche.setEnabled(val);
+        dent_12_gauche.setEnabled(val);
+        dent_13_gauche.setEnabled(val);
+        dent_14_gauche.setEnabled(val);
+        dent_15_gauche.setEnabled(val);
+        dent_16_gauche.setEnabled(val);
+        dent_17_gauche.setEnabled(val);
+        dent_18_gauche.setEnabled(val);
+        dent_1_gauche.setEnabled(val);
+        dent_2_gauche.setEnabled(val);
+        dent_3_gauche.setEnabled(val);
+        dent_4_gauche.setEnabled(val);
+        dent_5_gauche.setEnabled(val);
+        dent_6_gauche.setEnabled(val);
+        dent_7_gauche.setEnabled(val);
+        dent_8_gauche.setEnabled(val);
+        dent_1_droit.setEnabled(val);
+        dent_2_droit.setEnabled(val);
+        dent_3_droit.setEnabled(val);
+        dent_4_droit.setEnabled(val);
+        dent_5_droit.setEnabled(val);
+        dent_6_droit.setEnabled(val);
+        dent_7_droit.setEnabled(val);
+        dent_8_droit.setEnabled(val);
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -2121,59 +2442,65 @@ public class Fiche extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Fiche.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FicheJ.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Fiche.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FicheJ.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Fiche.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FicheJ.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Fiche.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FicheJ.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Fiche().setVisible(true);
+                new FicheJ().setVisible(true);
                 
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAjoutC;
     private javax.swing.JButton btnAjout_medoc;
-    private javax.swing.JButton btn_dent_11;
-    private javax.swing.JButton btn_dent_12;
-    private javax.swing.JButton btn_dent_13;
-    private javax.swing.JButton btn_dent_14;
-    private javax.swing.JButton btn_dent_15;
-    private javax.swing.JButton btn_dent_16;
-    private javax.swing.JButton btn_dent_17;
-    private javax.swing.JButton btn_dent_18;
-    private javax.swing.JButton dent_11_gauche;
-    private javax.swing.JButton dent_12_gauche;
-    private javax.swing.JButton dent_13_gauche;
-    private javax.swing.JButton dent_14_gauche;
-    private javax.swing.JButton dent_15_gauche;
-    private javax.swing.JButton dent_16_gauche;
-    private javax.swing.JButton dent_17_gauche;
-    private javax.swing.JButton dent_18_gauche;
-    private javax.swing.JButton dent_1_droit;
-    private javax.swing.JButton dent_1_gauche;
-    private javax.swing.JButton dent_2_droit;
-    private javax.swing.JButton dent_2_gauche;
-    private javax.swing.JButton dent_3_droit;
-    private javax.swing.JButton dent_3_gauche;
-    private javax.swing.JButton dent_4_droit;
-    private javax.swing.JButton dent_4_gauche;
-    private javax.swing.JButton dent_5_droit;
-    private javax.swing.JButton dent_5_gauche;
-    private javax.swing.JButton dent_6_droit;
-    private javax.swing.JButton dent_6_gauche;
-    private javax.swing.JButton dent_7_droit;
-    private javax.swing.JButton dent_7_gauche;
-    private javax.swing.JButton dent_8_droit;
-    private javax.swing.JButton dent_8_gauche;
+    private javax.swing.JComboBox<String> comboActe;
+    public static com.toedter.calendar.JDateChooser dateActe;
+    private com.toedter.calendar.JDateChooser date_debut_certif;
+    private com.toedter.calendar.JDateChooser date_fin_certif;
+    public static javax.swing.JButton dent_11_droit;
+    public static javax.swing.JButton dent_11_gauche;
+    public static javax.swing.JButton dent_12_droit;
+    public static javax.swing.JButton dent_12_gauche;
+    public static javax.swing.JButton dent_13_droit;
+    public static javax.swing.JButton dent_13_gauche;
+    public static javax.swing.JButton dent_14_droit;
+    public static javax.swing.JButton dent_14_gauche;
+    public static javax.swing.JButton dent_15_droit;
+    public static javax.swing.JButton dent_15_gauche;
+    public static javax.swing.JButton dent_16_droit;
+    public static javax.swing.JButton dent_16_gauche;
+    public static javax.swing.JButton dent_17_droit;
+    public static javax.swing.JButton dent_17_gauche;
+    public static javax.swing.JButton dent_18_droit;
+    public static javax.swing.JButton dent_18_gauche;
+    public static javax.swing.JButton dent_1_droit;
+    public static javax.swing.JButton dent_1_gauche;
+    public static javax.swing.JButton dent_2_droit;
+    public static javax.swing.JButton dent_2_gauche;
+    public static javax.swing.JButton dent_3_droit;
+    public static javax.swing.JButton dent_3_gauche;
+    public static javax.swing.JButton dent_4_droit;
+    public static javax.swing.JButton dent_4_gauche;
+    public static javax.swing.JButton dent_5_droit;
+    public static javax.swing.JButton dent_5_gauche;
+    public static javax.swing.JButton dent_6_droit;
+    public static javax.swing.JButton dent_6_gauche;
+    public static javax.swing.JButton dent_7_droit;
+    public static javax.swing.JButton dent_7_gauche;
+    public static javax.swing.JButton dent_8_droit;
+    public static javax.swing.JButton dent_8_gauche;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -2194,13 +2521,9 @@ public class Fiche extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private com.toedter.calendar.JDateChooser jDateChooser3;
-    private com.toedter.calendar.JDateChooser jDateChooser5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2211,7 +2534,6 @@ public class Fiche extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
@@ -2298,85 +2620,87 @@ public class Fiche extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JList<String> jlist_medoc;
-    private javax.swing.JLabel label_11_droit;
-    private javax.swing.JLabel label_11_droit_;
-    private javax.swing.JLabel label_11_gauche;
-    private javax.swing.JLabel label_11_gauche_;
-    private javax.swing.JLabel label_12_droit;
-    private javax.swing.JLabel label_12_droit_;
-    private javax.swing.JLabel label_12_gauche;
-    private javax.swing.JLabel label_12_gauche_;
-    private javax.swing.JLabel label_13_droit;
-    private javax.swing.JLabel label_13_droit_;
-    private javax.swing.JLabel label_13_gauche;
-    private javax.swing.JLabel label_13_gauche_;
-    private javax.swing.JLabel label_14_droit;
-    private javax.swing.JLabel label_14_droit_;
-    private javax.swing.JLabel label_14_gauche;
-    private javax.swing.JLabel label_14_gauche_;
-    private javax.swing.JLabel label_15_droit;
-    private javax.swing.JLabel label_15_droit_;
-    private javax.swing.JLabel label_15_gauche;
-    private javax.swing.JLabel label_15_gauche_;
-    private javax.swing.JLabel label_16_droit;
-    private javax.swing.JLabel label_16_droit_;
-    private javax.swing.JLabel label_16_gauche;
-    private javax.swing.JLabel label_16_gauche_;
-    private javax.swing.JLabel label_17_droit;
-    private javax.swing.JLabel label_17_droit_;
-    private javax.swing.JLabel label_17_gauche;
-    private javax.swing.JLabel label_17_gauche_;
-    private javax.swing.JLabel label_18_droit;
-    private javax.swing.JLabel label_18_droit_;
-    private javax.swing.JLabel label_18_gauche;
-    private javax.swing.JLabel label_18_gauche_;
-    private javax.swing.JLabel label_1_droit;
-    private javax.swing.JLabel label_1_droit_;
-    private javax.swing.JLabel label_1_gauche;
-    private javax.swing.JLabel label_1_gauche_;
-    private javax.swing.JLabel label_2_droit;
-    private javax.swing.JLabel label_2_droit_;
-    private javax.swing.JLabel label_2_gauche;
-    private javax.swing.JLabel label_2_gauche_;
-    private javax.swing.JLabel label_3_droit;
-    private javax.swing.JLabel label_3_droit_;
-    private javax.swing.JLabel label_3_gauche;
-    private javax.swing.JLabel label_3_gauche_;
-    private javax.swing.JLabel label_4_droit;
-    private javax.swing.JLabel label_4_droit_;
-    private javax.swing.JLabel label_4_gauche;
-    private javax.swing.JLabel label_4_gauche_;
-    private javax.swing.JLabel label_5_droit;
-    private javax.swing.JLabel label_5_droit_;
-    private javax.swing.JLabel label_5_gauche;
-    private javax.swing.JLabel label_5_gauche_;
-    private javax.swing.JLabel label_6_droit;
-    private javax.swing.JLabel label_6_droit_;
-    private javax.swing.JLabel label_6_gauche;
-    private javax.swing.JLabel label_6_gauche_;
-    private javax.swing.JLabel label_7_droit;
-    private javax.swing.JLabel label_7_droit_;
-    private javax.swing.JLabel label_7_gauche;
-    private javax.swing.JLabel label_7_gauche_;
-    private javax.swing.JLabel label_8_droit;
-    private javax.swing.JLabel label_8_droit_;
-    private javax.swing.JLabel label_8_gauche;
-    private javax.swing.JLabel label_8_gauche_;
+    public static javax.swing.JLabel lab_dent;
+    public static javax.swing.JLabel lab_lnfo;
+    public static javax.swing.JLabel label_11_droit;
+    public static javax.swing.JLabel label_11_droit_;
+    public static javax.swing.JLabel label_11_gauche;
+    public static javax.swing.JLabel label_11_gauche_;
+    public static javax.swing.JLabel label_12_droit;
+    public static javax.swing.JLabel label_12_droit_;
+    public static javax.swing.JLabel label_12_gauche;
+    public static javax.swing.JLabel label_12_gauche_;
+    public static javax.swing.JLabel label_13_droit;
+    public static javax.swing.JLabel label_13_droit_;
+    public static javax.swing.JLabel label_13_gauche;
+    public static javax.swing.JLabel label_13_gauche_;
+    public static javax.swing.JLabel label_14_droit;
+    public static javax.swing.JLabel label_14_droit_;
+    public static javax.swing.JLabel label_14_gauche;
+    public static javax.swing.JLabel label_14_gauche_;
+    public static javax.swing.JLabel label_15_droit;
+    public static javax.swing.JLabel label_15_droit_;
+    public static javax.swing.JLabel label_15_gauche;
+    public static javax.swing.JLabel label_15_gauche_;
+    public static javax.swing.JLabel label_16_droit;
+    public static javax.swing.JLabel label_16_droit_;
+    public static javax.swing.JLabel label_16_gauche;
+    public static javax.swing.JLabel label_16_gauche_;
+    public static javax.swing.JLabel label_17_droit;
+    public static javax.swing.JLabel label_17_droit_;
+    public static javax.swing.JLabel label_17_gauche;
+    public static javax.swing.JLabel label_17_gauche_;
+    public static javax.swing.JLabel label_18_droit;
+    public static javax.swing.JLabel label_18_droit_;
+    public static javax.swing.JLabel label_18_gauche;
+    public static javax.swing.JLabel label_18_gauche_;
+    public static javax.swing.JLabel label_1_droit;
+    public static javax.swing.JLabel label_1_droit_;
+    public static javax.swing.JLabel label_1_gauche;
+    public static javax.swing.JLabel label_1_gauche_;
+    public static javax.swing.JLabel label_2_droit;
+    public static javax.swing.JLabel label_2_droit_;
+    public static javax.swing.JLabel label_2_gauche;
+    public static javax.swing.JLabel label_2_gauche_;
+    public static javax.swing.JLabel label_3_droit;
+    public static javax.swing.JLabel label_3_droit_;
+    public static javax.swing.JLabel label_3_gauche;
+    public static javax.swing.JLabel label_3_gauche_;
+    public static javax.swing.JLabel label_4_droit;
+    public static javax.swing.JLabel label_4_droit_;
+    public static javax.swing.JLabel label_4_gauche;
+    public static javax.swing.JLabel label_4_gauche_;
+    public static javax.swing.JLabel label_5_droit;
+    public static javax.swing.JLabel label_5_droit_;
+    public static javax.swing.JLabel label_5_gauche;
+    public static javax.swing.JLabel label_5_gauche_;
+    public static javax.swing.JLabel label_6_droit;
+    public static javax.swing.JLabel label_6_droit_;
+    public static javax.swing.JLabel label_6_gauche;
+    public static javax.swing.JLabel label_6_gauche_;
+    public static javax.swing.JLabel label_7_droit;
+    public static javax.swing.JLabel label_7_droit_;
+    public static javax.swing.JLabel label_7_gauche;
+    public static javax.swing.JLabel label_7_gauche_;
+    public static javax.swing.JLabel label_8_droit;
+    public static javax.swing.JLabel label_8_droit_;
+    public static javax.swing.JLabel label_8_gauche;
+    public static javax.swing.JLabel label_8_gauche_;
+    private javax.swing.JTextField motif_certif;
+    private javax.swing.JTextArea note_certif;
+    public static javax.swing.JTextField prixConsultation;
     private javax.swing.JScrollPane scroll_note;
     private javax.swing.JScrollPane scroll_note1;
+    private javax.swing.JTabbedPane tabed_pane;
+    public static javax.swing.JTable tableauxConsultation;
+    public static javax.swing.JTextArea textNote;
     private javax.swing.JTextField text_medoc;
     private javax.swing.JTextArea text_note;
-    private javax.swing.JTextArea text_note1;
+    public static javax.swing.JTextArea text_note1;
     // End of variables declaration//GEN-END:variables
 }
